@@ -3,29 +3,33 @@ import './App.css';
 import { ListItem } from './components/ListItem';
 
 function App() {
-  const [shoppingItems, setShoppingItems] = useState([]);
-  const [itemsToBuy, setItemsToBuy] = useState([]);
+  const [shoppingBacklog, setShoppingBacklog] = useState([]);
+  const [shoppingList, setShoppingList] = useState([]);
 
   useEffect(async () => {
     const response = await fetch(
       'https://fetch-me.vercel.app/shopping-list.json'
     );
     const data = await response.json();
-    setShoppingItems(data);
+    setShoppingBacklog(data);
   }, []);
 
-  const updateShoppingList = (toggledItem) => {
-    /* Wenn toggledItem schon auf der ShoppingListe steht, 
-    dann rausnehmen, ansonsten hinzufügen */
+  const moveItemToShoppingList = (itemToMove) => {
+    setShoppingList([...shoppingList, itemToMove]);
 
-    if (itemsToBuy.includes(toggledItem)) {
-      const itemsStillToBuy = itemsToBuy.filter(
-        (item) => item.id !== toggledItem.id
-      );
-      setItemsToBuy(itemsStillToBuy);
-    } else {
-      setItemsToBuy([...itemsToBuy, toggledItem]);
-    }
+    const remainingBacklogItems = shoppingBacklog.filter(
+      (item) => item.id !== itemToMove.id
+    );
+    setShoppingBacklog(remainingBacklogItems);
+  };
+
+  const moveItemToBacklog = (itemToMove) => {
+    setShoppingBacklog([...shoppingBacklog, itemToMove]);
+
+    const remainingShoppingItems = shoppingList.filter(
+      (item) => item.id !== itemToMove.id
+    );
+    setShoppingList(remainingShoppingItems);
   };
 
   return (
@@ -33,20 +37,24 @@ function App() {
       <h1>Anitas Einkaufsliste 🛍</h1>
       <h2>Backlog</h2>
       <section className="backlog">
-        {shoppingItems.map((item) => (
+        {shoppingBacklog.map((item) => (
           <ListItem
             key={item}
             shoppingItem={item}
-            onUpdateShoppingList={updateShoppingList}
+            onListItemUpdate={moveItemToShoppingList}
           />
         ))}
       </section>
-      <h2>Aktuelle Liste</h2>
-      <ul>
-        {itemsToBuy.map((item) => (
-          <li>{item.name}</li>
+      <h2>Einkaufsliste</h2>
+      <section className="shopping-list">
+        {shoppingList.map((item) => (
+          <ListItem
+            key={item}
+            shoppingItem={item}
+            onListItemUpdate={moveItemToBacklog}
+          />
         ))}
-      </ul>
+      </section>
     </div>
   );
 }
