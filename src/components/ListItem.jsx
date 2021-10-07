@@ -1,9 +1,12 @@
 import './ListItem.css';
 
-export const ListItem = ({ shoppingItem, onListItemUpdate }) => {
+export const ListItem = ({ shoppingItem, onListItemUpdate, cssClass }) => {
   return (
-    <p className="list-item" onClick={() => onListItemUpdate(shoppingItem)}>
+    <span
+      className={`list-item ${cssClass}`}
+      onClick={() => onListItemUpdate(shoppingItem)}
+    >
       {shoppingItem.name}
-    </p>
+    </span>
   );
 };
