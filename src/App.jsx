@@ -1,10 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
 import { ListItem } from './components/ListItem';
+import { useLocalStorageState } from './utils/localStorage';
 
 function App() {
-  const [shoppingBacklog, setShoppingBacklog] = useState([]);
-  const [shoppingList, setShoppingList] = useState([]);
+  const [shoppingBacklog, setShoppingBacklog] = useLocalStorageState(
+    'shoppingBacklog',
+    []
+  );
+  const [shoppingList, setShoppingList] = useLocalStorageState(
+    'shoppingList',
+    []
+  );
 
   useEffect(async () => {
     const response = await fetch(
