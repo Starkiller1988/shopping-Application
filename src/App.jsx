@@ -14,6 +14,11 @@ function App() {
   );
 
   useEffect(async () => {
+    // Don't fetch data if we already items from localStorage
+    if (shoppingBacklog.length > 0 || shoppingList.length > 0) {
+      return;
+    }
+
     const response = await fetch(
       'https://fetch-me.vercel.app/shopping-list.json'
     );
@@ -46,7 +51,7 @@ function App() {
       <section className="backlog">
         {shoppingBacklog.map((item) => (
           <ListItem
-            key={item}
+            key={item.id}
             shoppingItem={item}
             onListItemUpdate={moveItemToShoppingList}
             cssClass="list-item-backlog"
@@ -57,7 +62,7 @@ function App() {
       <section className="shopping-list">
         {shoppingList.map((item) => (
           <ListItem
-            key={item}
+            key={item.id}
             shoppingItem={item}
             onListItemUpdate={moveItemToBacklog}
             cssClass="list-item-shoppinglist"
