@@ -54,7 +54,6 @@ function App() {
             key={item.id}
             shoppingItem={item}
             onListItemUpdate={moveItemToShoppingList}
-            cssClass="list-item-backlog"
           />
         ))}
       </section>
@@ -65,7 +64,6 @@ function App() {
             key={item.id}
             shoppingItem={item}
             onListItemUpdate={moveItemToBacklog}
-            cssClass="list-item-shoppinglist"
           />
         ))}
       </section>

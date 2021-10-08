@@ -2,10 +2,10 @@
   padding: 0.3rem;
 }
 
-.list-item-backlog {
+.backlog .list-item {
   background: lightgray;
 }
 
-.list-item-shoppinglist {
+.shopping-list .list-item {
   background: hotpink;
 }
